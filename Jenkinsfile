@@ -1,14 +1,12 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.8.1-adoptopenjdk-11' 
-            args '-v /root/.m2:/root/.m2' 
-        }
-    }
+    agent any 
     stages {
-        stage('Build') { 
+        stage('Build') {
+            agent { docker 'maven:3.5-alpine' }
             steps {
-                sh 'mvn -B -DskipTests clean package' 
+                sh 'mvn clean package'
+                junit '**/target/surefire-reports/TEST-*.xml'
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
     }
