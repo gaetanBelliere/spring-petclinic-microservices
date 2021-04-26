@@ -19,7 +19,7 @@ pipeline {
                     snapshotRepo: "petclinic"
                 )
                 rtMavenRun (
-                    pom: '*/pom.xml',
+                    pom: '**/pom.xml',
                     goals: 'install',
                     // Maven options.
                     opts: '',
