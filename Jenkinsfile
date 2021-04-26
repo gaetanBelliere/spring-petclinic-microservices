@@ -21,22 +21,15 @@ pipeline {
         }
         stage ('Artifactory configuration') {
             steps {
-                rtServer (
-                    id: "ARTIFACTORY_SERVER",
-                    url: SERVER_URL,
-                    credentialsId: CREDENTIALS
-                )
-
                 rtMavenDeployer (
                     id: "MAVEN_DEPLOYER",
-                    serverId: "ARTIFACTORY_SERVER",
+                    serverId: "gaet.jfrog.io",
                     releaseRepo: "libs-release-local",
                     snapshotRepo: "libs-snapshot-local"
                 )
-
                 rtMavenResolver (
                     id: "MAVEN_RESOLVER",
-                    serverId: "ARTIFACTORY_SERVER",
+                    serverId: "gaet.jfrog.io",
                     releaseRepo: "libs-release",
                     snapshotRepo: "libs-snapshot"
                 )
