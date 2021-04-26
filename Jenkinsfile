@@ -9,14 +9,14 @@ pipeline {
                 rtMavenDeployer (
                     id: 'MAVEN_DEPLOYER',
                     serverId: 'gaet.jfrog.io',
-                    releaseRepo: 'petclinic',
-                    snapshotRepo: 'petclinic'
+                    releaseRepo: 'clinic-libs-release-local',
+                    snapshotRepo: 'clinic-libs-snapshot-local'
                 )
                 rtMavenResolver (
                     id: 'MAVEN_RESOLVER',
                     serverId: 'gaet.jfrog.io',
-                    releaseRepo: 'petclinic',
-                    snapshotRepo: 'petclinic'
+                    releaseRepo: 'clinic-libs-release',
+                    snapshotRepo: 'clinic-libs-snapshot'
                 )
                 rtMavenRun (
                     pom: 'pom.xml',
