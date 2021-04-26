@@ -19,6 +19,7 @@ pipeline {
                     snapshotRepo: "libs-snapshot"
                 )
                 rtMavenRun (
+                    pom: "pom.xml",
                     goals: 'package',
                     // Maven options.
                     opts: '',
