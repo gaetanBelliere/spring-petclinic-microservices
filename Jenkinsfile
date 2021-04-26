@@ -3,22 +3,7 @@ pipeline {
     tools { 
         maven 'maven' 
     }  
-    stages { 
-        stage('Build') { 
-            steps { 
-               sh 'mvn -B -DskipTests clean package'
-            }
-        }
-        stage('Test') { 
-            steps {
-                sh 'mvn test' 
-            }
-        }
-        stage('Package') {
-            steps {
-                sh 'mvn package'
-            }
-        }
+    stages {
         stage ('Artifactory configuration') {
             steps {
                 rtMavenDeployer (
@@ -33,7 +18,15 @@ pipeline {
                     releaseRepo: "libs-release",
                     snapshotRepo: "libs-snapshot"
                 )
+                rtMavenRun (
+                    goals: 'package',
+                    // Maven options.
+                    opts: '',
+                    resolverId: 'MAVEN_RESOLVER',
+                    deployerId: 'MAVEN_DEPLOYER'
+                )
             }
         }
+        
     }
 }
