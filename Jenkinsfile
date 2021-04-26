@@ -4,7 +4,7 @@ pipeline {
         maven 'maven' 
     }  
     stages {
-        stage ('Artifactory configuration') {
+        stage ('Artifactory configuration and deployment') {
             steps {
                 rtMavenDeployer (
                     id: 'MAVEN_DEPLOYER',
