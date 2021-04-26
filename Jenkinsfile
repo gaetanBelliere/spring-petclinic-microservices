@@ -1,28 +1,21 @@
-pipeline { 
-    agent any
-    tools { 
-        maven 'maven' 
-    }  
-    stages { 
-        stage('Build') { 
-            steps { 
-               sh 'mvn -B -DskipTests clean package'
-            }
+pipeline {
+  agent none
+  stages {
+    stage('Maven Install') {
+      agent {
+        docker {
+          image 'maven:3.5.0'
         }
-        stage('Test') { 
-            steps {
-                sh 'mvn test' 
-            }
-        }
-        stage('Package') {
-            steps {
-                sh 'mvn package'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                sh 'mvn deploy'
-            }
-        }
+      }
+      steps {
+        sh 'mvn clean install'
+      }
     }
+    stage('Docker Build') {
+      agent any
+      steps {
+        sh 'docker build -t gaet/spring-petclinic:latest .'
+      }
+    }
+  }
 }
