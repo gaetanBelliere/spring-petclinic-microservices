@@ -1,21 +1,41 @@
-pipeline {
-  agent none
-  stages {
-    stage('Maven Install') {
-      agent {
-        docker {
-          image 'maven:3.5.0'
+pipeline { 
+    agent any
+    tools { 
+        maven 'maven' 
+    }  
+    stages { 
+        stage('Build') { 
+            steps { 
+               sh 'mvn -B -DskipTests clean package'
+            }
         }
-      }
-      steps {
-        sh 'mvn clean install'
-      }
+        stage('Test') { 
+            steps {
+                sh 'mvn test' 
+            }
+        }
+        stage('Package') {
+            steps {
+                sh 'mvn package'
+            }
+        }
+        stage ('Upload') {
+            steps {
+                rtUpload (
+                    buildName: JOB_NAME,
+                    buildNumber: BUILD_NUMBER,
+                    serverId: SERVER_ID, // Obtain an Artifactory server instance, defined in Jenkins --> Manage:
+                    spec: '''{
+                              "files": [
+                                 {
+                                  "pattern": "$WORKSPACE/Demo-Artifactory/Artifact_*",
+                                  "target": "result/",
+                                  "recursive": "false"
+                                } 
+                             ]
+                        }'''    
+                )
+            }
+        }
     }
-    stage('Docker Build') {
-      agent any
-      steps {
-        sh 'docker build -t gaet/spring-petclinic:latest .'
-      }
-    }
-  }
 }
