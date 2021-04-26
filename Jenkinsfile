@@ -14,15 +14,10 @@ pipeline {
                 sh 'mvn test' 
             }
         }
-        stage('Integration Tests') {
+        stage ('Deploy') {
             steps {
-                sh 'mvn -B integration-test'
+                sh 'mvn -B deploy'
             }
-            post {
-                always {
-                    junit '**/target/failsafe-reports/*.xml'
-                }
-            }    
         }
     }
 }
