@@ -20,7 +20,7 @@ pipeline {
                 )
                 rtMavenRun (
                     pom: 'pom.xml',
-                    goals: 'install',
+                    goals: 'clean install',
                     // Maven options.
                     opts: '',
                     resolverId: 'MAVEN_RESOLVER',
