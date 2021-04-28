@@ -4,7 +4,7 @@ pipeline {
         maven 'maven' 
     }  
     stages {
-        stage ('Artifactory configuration and deployment') {
+        stage ('Artifactory configuration') {
             steps {
                 rtMavenDeployer (
                     id: 'MAVEN_DEPLOYER',
@@ -18,6 +18,10 @@ pipeline {
                     releaseRepo: 'clinic-libs-release',
                     snapshotRepo: 'clinic-libs-snapshot'
                 )
+            }
+        }
+        stage ('Artifactory Maven Run') {
+            steps {
                 rtMavenRun (
                     pom: 'pom.xml',
                     goals: 'clean install',
