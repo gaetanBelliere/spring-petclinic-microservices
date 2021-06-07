@@ -22,14 +22,7 @@ pipeline {
         }
         stage ('Artifactory Maven Run') {
             steps {
-                rtMavenRun (
-                    pom: 'pom.xml',
-                    goals: 'clean install',
-                    // Maven options.
-                    opts: '',
-                    resolverId: 'MAVEN_RESOLVER',
-                    deployerId: 'MAVEN_DEPLOYER'
-                )
+                echo "Simulating Artifactory push" 
             }
         }
         
